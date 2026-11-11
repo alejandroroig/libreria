@@ -1,0 +1,25 @@
+name: libreria
+
+services:
+  app:
+    image: mcr.microsoft.com/devcontainers/base:bookworm
+    volumes:
+      - ..:/workspace:cached
+      # - /var/run/docker.sock:/var/run/docker-host.sock
+    command: sleep infinity
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: libreria_db
+      POSTGRES_USER: libreria_user
+      POSTGRES_PASSWORD: password123
+    ports:
+      - "5444:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+volumes:
+  postgres_data:

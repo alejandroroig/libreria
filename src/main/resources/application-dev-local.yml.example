@@ -1,0 +1,5 @@
+libreria:
+  admin:
+    password: "pon-aqui-tu-contraseña-de-demo"
+  jwt:
+    secret: "resultado-de-ejecutar-en-terminal-echo-$(openssl rand -base64 32)"

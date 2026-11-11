@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "LibreriaApplication (dev)",
+      "request": "launch",
+      "mainClass": "com.ejemplo.libreria.LibreriaApplication",
+      "env": { "SPRING_PROFILES_ACTIVE": "dev" }
+    }
+  ]
+}
