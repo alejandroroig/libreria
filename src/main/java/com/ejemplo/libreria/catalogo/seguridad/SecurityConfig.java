@@ -41,6 +41,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
             AuthenticationEntryPoint authenticationEntryPoint,
+            ErrorResponseAccessDeniedHandler accessDeniedHandler,
             JwtAuthenticationConverter jwtAuthenticationConverter) throws Exception {
 
         AuthenticationEntryPoint bearerEntryPoint = (request, response, ex) -> {
@@ -64,6 +65,7 @@ public class SecurityConfig {
                 // Registramos el ErrorResponseAuthenticationEntryPoint configurado con nuestro ErrorResponse
                 .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint(bearerEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler)
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .oauth2ResourceServer(oauth2 -> oauth2
