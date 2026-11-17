@@ -3,6 +3,8 @@ name: libreria
 services:
   app:
     image: mcr.microsoft.com/devcontainers/base:bookworm
+    environment:
+      TESTCONTAINERS_HOST_OVERRIDE: host.docker.internal
     volumes:
       - ..:/workspace:cached
       # - /var/run/docker.sock:/var/run/docker-host.sock

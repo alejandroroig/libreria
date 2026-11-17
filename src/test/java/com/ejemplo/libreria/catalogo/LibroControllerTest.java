@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -71,7 +72,8 @@ class LibroControllerTest {
                 "El nombre del viento",
                 new BigDecimal("19.95"),
                 LocalDate.of(2007, 3, 27),
-                new EditorialDTO(1L, "Plaza & Janés")
+                new EditorialDTO(1L, "Plaza & Janés"),
+                Map.of("edicion", Map.of("formato", "EPUB"))
         );
 
         Page<LibroResponseDTO> pagina =

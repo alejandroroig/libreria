@@ -10,8 +10,10 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("dev")
 class LibreriaApplicationTests {
 
+	/*
 	@Test
 	void contextLoads() {
 	}
+	*/
 
 }

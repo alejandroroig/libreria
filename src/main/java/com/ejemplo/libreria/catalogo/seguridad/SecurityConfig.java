@@ -1,6 +1,7 @@
 package com.ejemplo.libreria.catalogo.seguridad;
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
+import jakarta.servlet.DispatcherType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,14 +54,21 @@ public class SecurityConfig {
                 // Configuración de la política de sesión y autorización de solicitudes
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
                 .authorizeHttpRequests(auth -> auth
-                        // Permitir el registro de usuarios sin autenticación
+                        .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
+
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/register", "/api/v1/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/auth/me").authenticated()
+
+                        .requestMatchers(HttpMethod.GET, "/api/v1/libros", "/api/v1/libros/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/libros").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/v1/libros/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/editoriales/**").permitAll()
-                        // No es adecuado permitir acceso al resto solo por estar autenticado, pero se mejorará más adelante.
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/libros/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/libros/*").hasRole("ADMIN")
+
+                        .requestMatchers("/documentacion", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+
+                        .anyRequest().denyAll()
                 )
                 // Registramos el ErrorResponseAuthenticationEntryPoint configurado con nuestro ErrorResponse
                 .exceptionHandling(exceptions -> exceptions

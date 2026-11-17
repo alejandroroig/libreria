@@ -10,7 +10,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -110,5 +112,27 @@ public class GlobalExceptionHandler {
                 "Usuario o contraseña incorrectos", request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleTypeMismatch(MethodArgumentTypeMismatchException ex, HttpServletRequest request) {
+        return ResponseEntity.badRequest().body(new ErrorResponse(
+                LocalDateTime.now().toString(),
+                400,
+                "Parámetro inválido",
+                "El valor '%s' no es válido para el parámetro '%s'".formatted(ex.getValue(), ex.getName()),
+                request.getRequestURI()
+        ));
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNoResourceFound(NoResourceFoundException ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(
+                LocalDateTime.now().toString(),
+                404,
+                "Recurso no encontrado",
+                "El recurso solicitado no existe",
+                request.getRequestURI()
+        ));
     }
 }

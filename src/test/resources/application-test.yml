@@ -1,0 +1,14 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+  sql:
+    init:
+      mode: never
+
+libreria:
+  admin:
+    password: admintest123
+  jwt:
+    secret: clave-ficticia-solo-para-tests-de-libreria-2026
+    expiration-minutes: 15
